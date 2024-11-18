@@ -6,3 +6,4 @@ matplotlib
 openai
 pdfplumber
 tiktoken
+faiss-cpu
