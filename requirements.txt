@@ -4,4 +4,4 @@ langchain_community
 pandas
 matplotlib
 openai
-pypdf
+pdfplumber

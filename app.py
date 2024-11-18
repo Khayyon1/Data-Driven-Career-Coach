@@ -8,6 +8,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader
 import pandas as pd
 import matplotlib.pyplot as plt
+import pdfplumber
 
 # Set OpenAI API key from Streamlit secrets
 api_key = st.secrets['openai']['api_key']
@@ -17,9 +18,8 @@ llm = OpenAI(openai_api_key=api_key, temperature=0)
 
 def process_file(file, file_type='pdf'):
     if file_type == 'pdf':
-        loader = PyPDFLoader(file)
-        pages = loader.load_and_split()
-        return "\n".join([page.page_content for page in pages])
+        with pdfplumber.open(file) as pdf:
+            return "\n".join(page.extract_text() for page in pdf.pages if page.extract_text())
     elif file_type == 'txt':
         return file.read().decode("utf-8")
     return ""
